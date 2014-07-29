@@ -183,12 +183,17 @@ Backbone.Validation = (function(_){
               error;
 
           if(_.isObject(attr)){
-            _.each(attr, function(value, key) {
+              var oldAttr = this.attributes;
+              _.extend(this.attributes, attr);
+
+              _.each(attr, function(value, key) {
               error = self.preValidate(key, value);
               if(error){
                 result[key] = error;
               }
             });
+
+            this.attributes = oldAttr;
 
             return _.isEmpty(result) ? undefined : result;
           }
